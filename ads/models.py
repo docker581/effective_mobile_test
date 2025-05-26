@@ -48,12 +48,12 @@ class ExchangeProposal(models.Model):
     ad_sender = models.ForeignKey(
         Ad,
         on_delete=models.CASCADE,
-        related_name='ad_sender',
+        related_name='ad_sender_id',
     )
     ad_receiver = models.ForeignKey(
         Ad,
         on_delete=models.CASCADE,
-        related_name='ad_receiver',
+        related_name='ad_receiver_id',
     )
     comment = models.TextField(blank=True)
     status = models.CharField(

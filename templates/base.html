@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Платформа для обмена вещами (бартерная система){% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'ads:ad_list' %}">Список объявлений</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a class="nav-link" href="{% url 'ads:ad_create' %}">Создать объявление</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'ads:proposal_list' %}">Мои предложения</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container mt-4">
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>

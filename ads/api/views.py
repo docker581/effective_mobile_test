@@ -1,16 +1,13 @@
-from rest_framework import viewsets, permissions, filters, status
+from rest_framework import viewsets, filters, status, permissions
 from rest_framework.exceptions import PermissionDenied, NotFound
 from rest_framework.response import Response
 
-from .models import Ad, ExchangeProposal
+from django_filters.rest_framework import DjangoFilterBackend
+
+from ..models import Ad, ExchangeProposal
 from .serializers import AdSerializer, ExchangeProposalSerializer
-
-
-class IsOwnerOrReadOnly(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
-            return True
-        return obj.user == request.user
+from .permissions import IsOwnerOrReadOnly
+from .pagination import AdPagination
 
 
 class AdViewSet(viewsets.ModelViewSet):
@@ -20,6 +17,10 @@ class AdViewSet(viewsets.ModelViewSet):
         permissions.IsAuthenticatedOrReadOnly, 
         IsOwnerOrReadOnly,
     ]
+    pagination_class = AdPagination
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    search_fields = ['title', 'description']
+    filterset_fields = ['category', 'condition']
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -50,7 +51,7 @@ class ExchangeProposalViewSet(viewsets.ModelViewSet):
     serializer_class = ExchangeProposalSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['status', 'ad_sender__id', 'ad_receiver__id']
+    search_fields = ['ad_sender__id', 'ad_receiver__id', 'status']
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

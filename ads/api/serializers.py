@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Ad, ExchangeProposal
+from ..models import Ad, ExchangeProposal
 
 
 class AdSerializer(serializers.ModelSerializer):

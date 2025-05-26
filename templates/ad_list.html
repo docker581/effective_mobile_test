@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Список объявлений{% endblock %}
+{% block content %}
+<h1>Список объявлений</h1>
+<div class="row">
+    {% for ad in ads %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ ad.title }}</h5>
+                    <p class="card-text">{{ ad.description }}</p>
+                    <a href="{% url 'ads:ad_detail' ad.pk %}" class="btn btn-primary">Подробнее</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>Объявлений нет.</p>
+    {% endfor %}
+</div>
+{% endblock %}
