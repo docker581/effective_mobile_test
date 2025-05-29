@@ -1,31 +1,39 @@
-{% extends 'ads/base.html' %}
+{% extends 'base.html' %}
 {% block title %}Мои предложения{% endblock %}
 {% block content %}
-    <h1>Мои предложения</h1>
-    {% if proposals %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Кому</th>
-                    <th>Объявление</th>
-                    <th>Комментарий</th>
-                    <th>Статус</th>
-                    <th>Создано</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for proposal in proposals %}
-                <tr>
-                    <td>{{ proposal.ad_receiver.user }}</td>
-                    <td><a href="{% url 'ads:ad_detail' proposal.ad_receiver.pk %}">{{ proposal.ad_receiver.title }}</a></td>
-                    <td>{{ proposal.comment }}</td>
-                    <td>{{ proposal.get_status_display }}</td>
-                    <td>{{ proposal.created_at|date:"d.m.Y H:i" }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>Предложений нет.</p>
-    {% endif %}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="mb-4">Мои предложения</h1>
+            {% if proposals %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Кому</th>
+                                <th>Объявление</th>
+                                <th>Комментарий</th>
+                                <th>Статус</th>
+                                <th>Создано</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for proposal in proposals %}
+                            <tr>
+                                <td>{{ proposal.ad_receiver.user }}</td>
+                                <td><a href="{% url 'ad_detail' proposal.ad_receiver.pk %}">{{ proposal.ad_receiver.title }}</a></td>
+                                <td>{{ proposal.comment }}</td>
+                                <td>{{ proposal.get_status_display }}</td>
+                                <td>{{ proposal.created_at|date:"d.m.Y H:i" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <p class="mb-0">Предложений нет.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

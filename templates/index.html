@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-{% block title %}Список объявлений{% endblock %}
+{% block title %}Платформа для обмена вещами{% endblock %}
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8">
-        <h1 class="mb-4">Список объявлений</h1>
+        <h1 class="mb-4">Объявления</h1>
         {% if ads %}
             <div class="row">
                 {% for ad in ads %}
@@ -12,6 +12,12 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ ad.title }}</h5>
                                 <p class="card-text">{{ ad.description }}</p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        Категория: {{ ad.get_category_display }}<br>
+                                        Состояние: {{ ad.get_condition_display }}
+                                    </small>
+                                </p>
                                 <a href="{% url 'ad_detail' ad.pk %}" class="btn btn-primary">Подробнее</a>
                             </div>
                         </div>
@@ -25,4 +31,4 @@
         {% endif %}
     </div>
 </div>
-{% endblock %}
+{% endblock %} 

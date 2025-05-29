@@ -1,20 +1,48 @@
-{% extends 'ads/base.html' %}
+{% extends 'base.html' %}
 {% block title %}Предложение обмена{% endblock %}
 {% block content %}
-    <h1>Предложить обмен для "{{ ad.title }}"</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        <div class="form-group">
-            {{ form.ad_receiver.label_tag }}
-            {{ form.ad_receiver }}
-            {{ form.ad_receiver.errors }}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="mb-4">Предложить обмен</h1>
+            
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Объявление для обмена</h5>
+                </div>
+                <div class="card-body">
+                    <h6>{{ ad.title }}</h6>
+                    <p class="card-text">{{ ad.description }}</p>
+                    <small class="text-muted">
+                        Категория: {{ ad.get_category_display }}<br>
+                        Состояние: {{ ad.get_condition_display }}<br>
+                        Владелец: {{ ad.user }}
+                    </small>
+                </div>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                
+                <div class="form-group mb-3">
+                    {{ form.ad_sender.errors }}
+                    {{ form.ad_sender.label_tag }}
+                    {{ form.ad_sender }}
+                </div>
+
+                {{ form.ad_receiver }}
+
+                <div class="form-group mb-3">
+                    {{ form.comment.errors }}
+                    {{ form.comment.label_tag }}
+                    {{ form.comment }}
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">Отправить предложение</button>
+                    <a href="{% url 'ad_detail' ad.pk %}" class="btn btn-secondary">Отмена</a>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            {{ form.comment.label_tag }}
-            {{ form.comment }}
-            {{ form.comment.errors }}
-        </div>
-        <button type="submit" class="btn btn-primary">Отправить</button>
-    </form>
+    </div>
 {% endblock %}

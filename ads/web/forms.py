@@ -1,4 +1,5 @@
 from django import forms
+
 from ..models import Ad, ExchangeProposal
 
 
@@ -19,9 +20,20 @@ class AdForm(forms.ModelForm):
 class ExchangeProposalForm(forms.ModelForm):
     class Meta:
         model = ExchangeProposal
-        fields = ['ad_receiver', 'comment']
+        fields = ['ad_sender', 'ad_receiver', 'comment']
         widgets = {
-            'ad_receiver': forms.Select(attrs={'class': 'form-control'}),
-            'comment': forms.Textarea(attrs={'class': 'form-control', 
-                                             'rows': 3}),
+            'ad_sender': forms.Select(attrs={
+                'class': 'form-control',
+                'required': True
+            }),
+            'ad_receiver': forms.HiddenInput(),
+            'comment': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 3,
+                'placeholder': 'Комментарий'
+            }),
+        }
+        labels = {
+            'ad_sender': 'Ваше объявление для обмена',
+            'comment': 'Комментарий к предложению'
         }

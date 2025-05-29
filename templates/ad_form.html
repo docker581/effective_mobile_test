@@ -1,35 +1,39 @@
-{% extends 'ads/base.html' %}
+{% extends 'base.html' %}
 {% block title %}{% if ad %}Редактировать объявление{% else %}Создать объявление{% endif %}{% endblock %}
 {% block content %}
-    <h1>{% if ad %}Редактировать{% else %}Создать{% endif %} объявление</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        <div class="form-group">
-            {{ form.title.label_tag }}
-            {{ form.title }}
-            {{ form.title.errors }}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="mb-4">{% if ad %}Редактировать{% else %}Создать{% endif %} объявление</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="form-group">
+                    {{ form.title.label_tag }}
+                    <input type="text" name="{{ form.title.name }}" class="form-control" id="{{ form.title.id_for_label }}" {% if form.title.value %}value="{{ form.title.value }}"{% endif %} required>
+                    {{ form.title.errors }}
+                </div>
+                <div class="form-group">
+                    {{ form.description.label_tag }}
+                    <textarea name="{{ form.description.name }}" class="form-control" id="{{ form.description.id_for_label }}" required>{% if form.description.value %}{{ form.description.value }}{% endif %}</textarea>
+                    {{ form.description.errors }}
+                </div>
+                <div class="form-group">
+                    {{ form.image_url.label_tag }}
+                    <input type="url" name="{{ form.image_url.name }}" class="form-control" id="{{ form.image_url.id_for_label }}" {% if form.image_url.value %}value="{{ form.image_url.value }}"{% endif %}>
+                    {{ form.image_url.errors }}
+                </div>
+                <div class="form-group">
+                    {{ form.category.label_tag }}
+                    {{ form.category }}
+                    {{ form.category.errors }}
+                </div>
+                <div class="form-group">
+                    {{ form.condition.label_tag }}
+                    {{ form.condition }}
+                    {{ form.condition.errors }} 
+                </div>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </form>
         </div>
-        <div class="form-group">
-            {{ form.description.label_tag }}
-            {{ form.description }}
-            {{ form.description.errors }}
-        </div>
-        <div class="form-group">
-            {{ form.image_url.label_tag }}
-            {{ form.image_url }}
-            {{ form.image_url.errors }}
-        </div>
-        <div class="form-group">
-            {{ form.category.label_tag }}
-            {{ form.category }}
-            {{ form.category.errors }}
-        </div>
-        <div class="form-group">
-            {{ form.condition.label_tag }}
-            {{ form.condition }}
-            {{ form.condition.errors }} 
-        </div>
-        <button type="submit" class="btn btn-success">Сохранить</button>
-    </form>
+    </div>
 {% endblock %}
