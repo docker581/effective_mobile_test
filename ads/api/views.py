@@ -14,7 +14,7 @@ class AdViewSet(viewsets.ModelViewSet):
     queryset = Ad.objects.all().order_by('-created_at')
     serializer_class = AdSerializer
     permission_classes = [
-        permissions.IsAuthenticatedOrReadOnly, 
+        permissions.IsAuthenticatedOrReadOnly,
         IsOwnerOrReadOnly,
     ]
     pagination_class = AdPagination
@@ -57,18 +57,18 @@ class ExchangeProposalViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         proposal = serializer.save()
-        return Response(self.get_serializer(proposal).data, 
+        return Response(self.get_serializer(proposal).data,
                         status=status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
         if 'status' not in request.data:
-            return Response({'detail': 'Можно обновлять только статус'}, 
+            return Response({'detail': 'Можно обновлять только статус'},
                             status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(
-            instance, 
-            data={'status': request.data['status']}, 
+            instance,
+            data={'status': request.data['status']},
             partial=partial,
         )
         serializer.is_valid(raise_exception=True)

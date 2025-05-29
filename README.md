@@ -42,10 +42,10 @@ python manage.py test ads.web.tests
 
 ## Документация по API
 ```bash
-http://127.0.0.1/swagger - Swagger
+http://127.0.0.1:8000/swagger/ - Swagger
 ```
 ```bash
-http://127.0.0.1/redoc - Redoc
+http://127.0.0.1:8000/redoc/ - Redoc
 ```
 
 ## Автор

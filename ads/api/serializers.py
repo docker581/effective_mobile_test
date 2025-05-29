@@ -9,7 +9,7 @@ class AdSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ad
         fields = [
-            'id', 'user', 'title', 'description', 'image_url', 'category', 
+            'id', 'user', 'title', 'description', 'image_url', 'category',
             'condition', 'created_at',
         ]
         read_only_fields = ['id', 'user', 'created_at']
@@ -24,7 +24,7 @@ class ExchangeProposalSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExchangeProposal
         fields = [
-            'id', 'ad_sender', 'ad_receiver', 'ad_sender_id', 'ad_receiver_id', 
+            'id', 'ad_sender', 'ad_receiver', 'ad_sender_id', 'ad_receiver_id',
             'comment', 'status', 'created_at',
         ]
         read_only_fields = ['id', 'status', 'created_at']
@@ -39,18 +39,3 @@ class ExchangeProposalSerializer(serializers.ModelSerializer):
             **validated_data
         )
         return proposal
-
-
-class ExchangeProposalSerializer(serializers.ModelSerializer):
-    ad_sender = serializers.PrimaryKeyRelatedField(queryset=Ad.objects.all())
-    ad_receiver = serializers.PrimaryKeyRelatedField(queryset=Ad.objects.all())
-
-    class Meta:
-        model = ExchangeProposal
-        fields = [
-            'id', 'ad_sender', 'ad_receiver', 'comment', 'status', 'created_at',
-        ]
-        read_only_fields = ['id', 'created_at']
-        extra_kwargs = {
-            'status': {'read_only': True},
-        }

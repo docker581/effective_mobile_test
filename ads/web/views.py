@@ -24,22 +24,18 @@ def register(request):
 
 def ad_list(request):
     ads = Ad.objects.order_by('-created_at')
-    
     user_id = request.GET.get('user')
     if user_id:
         ads = ads.filter(user_id=user_id)
-    
     return render(request, 'index.html', {'ads': ads})
 
 
 def ad_detail(request, pk):
     ad = get_object_or_404(Ad, pk=pk)
     proposals = ExchangeProposal.objects.filter(ad_receiver=ad)
-    
     error = request.GET.get('error')
     if error:
         messages.error(request, error)
-    
     return render(request, 'ad_detail.html', {
         'ad': ad,
         'proposals': proposals,
@@ -66,7 +62,6 @@ def ad_edit(request, pk):
         messages.error(request, 'У вас нет прав на редактирование этого '
                                 'объявления')
         return redirect('ad_detail', pk=pk)
-    
     if request.method == 'POST':
         form = AdForm(request.POST, instance=ad)
         if form.is_valid():
@@ -83,7 +78,6 @@ def ad_delete(request, pk):
     if ad.user != request.user:
         messages.error(request, 'У вас нет прав на удаление этого объявления')
         return redirect('ad_detail', pk=pk)
-    
     if request.method == 'POST':
         ad.delete()
         messages.success(request, 'Объявление успешно удалено')
@@ -94,10 +88,9 @@ def ad_delete(request, pk):
 @login_required
 def proposal_create(request, sender_pk):
     ad_receiver = get_object_or_404(Ad, pk=sender_pk)
-    
     if ad_receiver.user == request.user:
         messages.error(request, 'Вы не можете предложить обмен для своего '
-                               'собственного объявления')
+                                'собственного объявления')
         return redirect('ad_detail', pk=sender_pk)
     
     user_ads = Ad.objects.filter(user=request.user)
@@ -125,6 +118,7 @@ def proposal_create(request, sender_pk):
         'form': form,
         'ad': ad_receiver,
     })
+
 
 @login_required
 def proposal_list(request):

@@ -16,7 +16,7 @@ class AdViewsTest(TestCase):
             username='testuser2',
             password='testpass123',
         )
-        
+
         self.ad1 = Ad.objects.create(
             user=self.user1,
             title='Тестовое объявление 1',
@@ -31,7 +31,7 @@ class AdViewsTest(TestCase):
             category='toys',
             condition='old',
         )
-        
+
         self.client = Client()
 
     def test_index_view(self):
@@ -48,10 +48,10 @@ class AdViewsTest(TestCase):
 
     def test_ad_create_view(self):
         self.client.login(username='testuser1', password='testpass123')
-        
+
         response = self.client.get(reverse('ad_create'))
         self.assertEqual(response.status_code, 200)
-        
+
         data = {
             'title': 'Новое объявление',
             'description': 'Описание нового объявления',
@@ -59,8 +59,8 @@ class AdViewsTest(TestCase):
             'condition': 'new',
         }
         response = self.client.post(reverse('ad_create'), data)
-        self.assertEqual(response.status_code, 302)  
-        
+        self.assertEqual(response.status_code, 302)
+
         self.assertTrue(
             Ad.objects.filter(title='Новое объявление').exists()
         )
@@ -89,7 +89,7 @@ class AdViewsTest(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         messages = list(get_messages(response.wsgi_request))
-        self.assertIn('У вас нет прав на редактирование', 
+        self.assertIn('У вас нет прав на редактирование',
                       str(messages[0]))
 
     def test_ad_delete_view(self):
@@ -97,7 +97,7 @@ class AdViewsTest(TestCase):
         response = self.client.post(reverse('ad_delete', args=[self.ad1.pk]))
         self.assertEqual(response.status_code, 302)
         messages = list(get_messages(response.wsgi_request))
-        self.assertIn('У вас нет прав на удаление', 
+        self.assertIn('У вас нет прав на удаление',
                       str(messages[0]))
         self.assertTrue(Ad.objects.filter(pk=self.ad1.pk).exists())
 
@@ -118,7 +118,7 @@ class ExchangeProposalViewsTest(TestCase):
             username='testuser2',
             password='testpass123',
         )
-        
+
         self.ad1 = Ad.objects.create(
             user=self.user1,
             title='Объявление пользователя 1',
@@ -133,7 +133,7 @@ class ExchangeProposalViewsTest(TestCase):
             category='toys',
             condition='old',
         )
-        
+
         self.client = Client()
 
     def test_proposal_create_view(self):
@@ -149,7 +149,7 @@ class ExchangeProposalViewsTest(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         messages = list(get_messages(response.wsgi_request))
-        self.assertIn('Вы не можете предложить обмен для своего', 
+        self.assertIn('Вы не можете предложить обмен для своего',
                       str(messages[0]))
         
         response = self.client.get(
@@ -177,13 +177,13 @@ class ExchangeProposalViewsTest(TestCase):
     def test_proposal_list_view(self):
         self.client.login(username='testuser1', password='testpass123')
         
-        proposal = ExchangeProposal.objects.create(
+        ExchangeProposal.objects.create(
             ad_sender=self.ad1,
             ad_receiver=self.ad2,
             comment='Тестовый комментарий',
             status='pending',
         )
-        
+
         response = self.client.get(reverse('proposal_list'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Тестовый комментарий') 
+        self.assertContains(response, 'Тестовый комментарий')

@@ -6,9 +6,8 @@ from .views import AdViewSet, ExchangeProposalViewSet
 
 router = DefaultRouter()
 router.register(r'ads', AdViewSet, basename='ad')
-router.register(r'proposals', ExchangeProposalViewSet, 
-                basename='proposal')
+router.register(r'proposals', ExchangeProposalViewSet, basename='proposal')
 
 urlpatterns = [
-    path('api/v1/', include(router.urls)),
+    path('v1/', include(router.urls)),
 ]

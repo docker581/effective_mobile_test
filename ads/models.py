@@ -25,7 +25,7 @@ class Ad(models.Model):
     )
     title = models.CharField(max_length=200, verbose_name='Название')
     description = models.TextField(verbose_name='Описание')
-    image_url = models.URLField(blank=True, 
+    image_url = models.URLField(blank=True,
                                 verbose_name='Ссылка на изображение')
     category = models.CharField(
         max_length=50,
@@ -39,7 +39,8 @@ class Ad(models.Model):
         default='new',
         verbose_name='Условие',
     )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создано')
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name='Создано')
 
     def __str__(self):
         return self.title
@@ -71,7 +72,8 @@ class ExchangeProposal(models.Model):
         default='pending',
         verbose_name='Статус',
     )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создано')
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name='Создано')
 
     def __str__(self):
         return f'Обмен: {self.ad_sender.title} -> {self.ad_receiver.title}'
